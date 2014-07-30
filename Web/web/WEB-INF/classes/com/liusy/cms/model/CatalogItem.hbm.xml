@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.liusy.cms.model">
+   <class name="CatalogItem" table="cms_Catalog_Item" >
+      <meta attribute="sync-DAO">true</meta>
+      <id name="id" column="ID" type="integer" >
+         <generator class="native"/>
+      </id>
+      <property name="catalogId" column="catalog_Id" type="integer" not-null="true" length="11" />
+      <property name="type" column="type" type="integer" not-null="true" length="1" />
+       <property name="status" column="status" type="integer" not-null="true" length="1" />
+      <property name="subject" column="subject" type="string" not-null="false" length="1000" />
+      <property name="img" column="img" type="string" not-null="false" length="100" />
+      <property name="centent" column="centent" type="string" not-null="false"/>
+      <property name="createUser" column="create_User" type="string" not-null="false" length="20" />
+      <property name="createTime" column="create_Time" type="date" not-null="false"/>
+      <property name="updateUser" column="update_User" type="string" not-null="false" length="20" />
+      <property name="updateTime" column="update_Time" type="date" not-null="false"/>
+      <property name="sort" column="sort" type="integer" not-null="false" length="11" />
+      <property name="remark" column="remark" type="string" not-null="false" length="512" />
+   </class>	
+</hibernate-mapping>

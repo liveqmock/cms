@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="GB2312"?>     
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">     
+     
+<beans>     
+	<!-- SysUserDao bean declare begin -->  
+	<bean id="sysUserDao" class="com.liusy.common.dao.impl.SysUserDaoImpl" autowire="byName" />  
+	<!-- SysUserDao bean declare end -->  
+	<!-- SysRoleDao bean declare begin -->  
+	<bean id="sysRoleDao" class="com.liusy.common.dao.impl.SysRoleDaoImpl" autowire="byName" />  
+	<!-- SysRoleDao bean declare end -->  
+	<!-- SysDeptDao bean declare begin -->  
+	<bean id="sysDeptDao" class="com.liusy.common.dao.impl.SysDeptDaoImpl" autowire="byName" />  
+	<!-- SysDeptDao bean declare end -->  
+	<!-- SysOrgDao bean declare begin -->  
+	<bean id="sysOrgDao" class="com.liusy.common.dao.impl.SysOrgDaoImpl" autowire="byName" />  
+	<!-- SysOrgDao bean declare end -->  
+  
+	<bean id="sysUserRoleDao" class="com.liusy.common.dao.impl.SysUserRoleDaoImpl" autowire="byName" />  
+	<bean id="sysResourceUserDao" class="com.liusy.common.dao.impl.SysResourceUserDaoImpl" autowire="byName" />  
+	<bean id="sysResourceRoleDao" class="com.liusy.common.dao.impl.SysResourceRoleDaoImpl" autowire="byName" />  
+	<bean id="sysCodeDao" class="com.liusy.common.dao.impl.SysCodeDaoImpl" autowire="byName" />  
+	<bean id="sysCodeSetDao" class="com.liusy.common.dao.impl.SysCodeSetDaoImpl" autowire="byName" />  
+	<bean id="sysResourceDao" class="com.liusy.common.dao.impl.SysResourceDaoImpl" autowire="byName" />  
+  
+	<bean id="jdbcDao" class="com.liusy.core.dao.impl.JdbcDaoImpl" autowire="byName" />  
+	<bean id="sqlFactory" class="com.liusy.core.dao.SqlFactory" >  
+		<property name="location">  
+			<value>/WEB-INF/sql/sql.xml</value>  
+		</property>  
+	</bean>
+	
+	 
+	<!--loginService-START --> 
+	<bean id="loginService" parent="txProxyTemplate"> 
+		<property name="target"> 
+			<bean class="com.liusy.common.service.login.impl.LoginServiceImpl" autowire="byName" /> 
+		</property> 
+	</bean> 
+	<!--loginService-END --> 
+	<!--SysUserInfo-START --> 
+	<bean id="sysUserService" parent="txProxyTemplate"> 
+		<property name="target"> 
+			<bean class="com.liusy.common.service.system.impl.SysUserServiceImpl" autowire="byName" /> 
+		</property> 
+	</bean> 
+	<!--SysUserInfo-END --> 
+	<!--SysRoleInfo-START --> 
+	<bean id="sysRoleService" parent="txProxyTemplate"> 
+		<property name="target"> 
+			<bean class="com.liusy.common.service.system.impl.SysRoleServiceImpl" autowire="byName" /> 
+		</property> 
+	</bean> 
+	<!--SysRoleInfo-END --> 
+	<bean id="sysOrgService" parent="txProxyTemplate"> 
+		<property name="target"> 
+			<bean class="com.liusy.common.service.system.impl.SysOrgServiceImpl" autowire="byName" /> 
+		</property> 
+	</bean> 
+	<bean id="sysDeptService" parent="txProxyTemplate"> 
+		<property name="target"> 
+			<bean class="com.liusy.common.service.system.impl.SysDeptServiceImpl" autowire="byName" /> 
+		</property> 
+	</bean> 
+	<bean id="sysCodeService" parent="txProxyTemplate"> 
+		<property name="target"> 
+			<bean class="com.liusy.common.service.system.impl.SysCodeServiceImpl" autowire="byName" /> 
+		</property> 
+	</bean> 
+	<bean id="sysCodeSetService" parent="txProxyTemplate"> 
+		<property name="target"> 
+			<bean class="com.liusy.common.service.system.impl.SysCodeSetServiceImpl" autowire="byName" /> 
+		</property> 
+	</bean> 
+	<bean id="sysResourceService" parent="txProxyTemplate"> 
+		<property name="target"> 
+			<bean class="com.liusy.common.service.system.impl.SysResourceServiceImpl" autowire="byName" /> 
+		</property> 
+	</bean>  
+	
+   
+	   
+</beans> 

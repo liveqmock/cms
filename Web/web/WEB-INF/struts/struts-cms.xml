@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="cms" extends="default" namespace="/cms">
+
+	<action name="catalog" class="com.liusy.cms.web.CatalogAction">
+		<result type="json" name="JSON">
+			<param name="ignoreHierarchy">false</param><!-- 解决不能反回父亲中的属性问题 -->
+		</result>
+		
+		<result name="LIST">/cms/admin/Catalog_list.jsp</result>
+		<result name="addCatalog">/cms/admin/Catalog_add.jsp</result>
+		<result name="editCatalog">/cms/admin/Catalog_add.jsp</result>
+		<result name="addCatalogItem">/cms/admin/CatalogItem_add.jsp</result>
+		<result name="editCatalogItem">/cms/admin/CatalogItem_add.jsp</result>
+		<result name="catalogItemList">/cms/admin/CatalogItem_grid.jsp</result>
+	</action>	
+		
+	</package>
+</struts>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="system" extends="default" namespace="/system">
+		<action name="sysUser" class="com.liusy.common.web.system.SysUserAction">
+			<result name="LIST">/jsp/system/org/sysUser_list.jsp</result>
+			<result name="ADD">/jsp/system/org/sysUser_add.jsp</result>
+			<result name="EDIT">/jsp/system/org/sysUser_edit.jsp</result>
+			<result name="VIEW">/jsp/system/org/sysUser_view.jsp</result>
+			<result name="PWD">/jsp/system/org/sysUser_pwd.jsp</result>
+			<result name="MYPWD">/changePwd.jsp</result>
+		</action>
+		<action name="sysReource" class="com.liusy.common.web.system.SysReourceAction">
+			<result name="LIST">/jsp/system/org/sysUser_list.jsp</result>
+			<result name="USERRIGHTS">/jsp/system/org/sysUser_rights.jsp</result>
+			<result name="ROLERIGHTS">/jsp/system/org/sysRole_rights.jsp</result>
+		</action>
+		<action name="sysRole" class="com.liusy.common.web.system.SysRoleAction">
+			<result name="LIST">/jsp/system/org/sysRole_list.jsp</result>
+			<result name="ADD">/jsp/system/org/sysRole_add.jsp</result>
+			<result name="EDIT">/jsp/system/org/sysRole_edit.jsp</result>
+			<result name="VIEW">/jsp/system/org/sysRole_view.jsp</result>
+			<result name="VERITY">/jsp/system/org/sysRole_verify.jsp</result>
+			<result name="RIGHTS">/jsp/system/org/sysRole_rights.jsp</result>
+			<result name="SELECTROLES">/jsp/system/org/sysRole_selectRoles.jsp</result>
+		</action>
+		<action name="sysOrg" class="com.liusy.common.web.system.SysOrgAction">
+   	  		<result name="LIST">/jsp/system/org/sysOrg.jsp</result>
+      		<result name="ADD">/jsp/system/org/sysOrg_add.jsp</result>
+      		<result name="EDIT">/jsp/system/org/sysOrg_edit.jsp</result>
+    	</action>
+    	<action name="sysDept" class="com.liusy.common.web.system.SysDeptAction">
+      		<result name="ADD">/jsp/system/org/sysDept_add.jsp</result>
+      		<result name="EDIT">/jsp/system/org/sysDept_edit.jsp</result>
+    	</action>
+    	<action name="sysCode" class="com.liusy.common.web.system.SysCodeAction">
+			<result name="LIST">/jsp/system/config/SysCodeSet_list.jsp</result>
+			<result name="ADD">/jsp/system/config/sysCode_add.jsp</result>
+			<result name="EDIT">/jsp/system/config/sysCode_edit.jsp</result>
+			<result name="CODELIST">/jsp/system/config/SysCode_grid.jsp</result>
+			<result name="CODETREE">/jsp/system/config/SysCode_treegrid.jsp</result>
+		</action>
+		<action name="sysDoc" class="com.liusy.pm.system.web.SysDocAction">
+   	  		<result name="LIST">/jsp/system/pm/sysDoc_catagory.jsp</result>
+      		<result name="ADD">/jsp/system/pm/sysDoc_catagory_add.jsp</result>
+      		<result name="EDIT">/jsp/system/pm/sysDoc_catagory_edit.jsp</result>
+      		<result name="ADDCHILDDOC">/jsp/system/pm/sysDoc_add.jsp</result>
+      		<result name="EDITCHILDDOC">/jsp/system/pm/sysDoc_edit.jsp</result>
+    	</action>
+
+		<action name="sysStage" class="com.liusy.pm.system.web.SysProjectStageAction">
+			<result name="LIST">/jsp/system/pm/sysProjectStage_list.jsp</result>
+			<result name="ADD">/jsp/system/pm/sysProjectStageDoc_set.jsp</result>
+			<result name="DOCLIST">/jsp/system/pm/sysProjectStageDoc_grid.jsp</result>
+			<result name="VIEW">/jsp/system/pm/sysProjectStageDoc_view.jsp</result>
+		</action>
+
+	</package>
+</struts>
