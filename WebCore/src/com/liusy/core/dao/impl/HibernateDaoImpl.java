@@ -399,7 +399,7 @@ public abstract class HibernateDaoImpl<T> extends HibernateDaoSupport implements
     */
    public void saveOrUpdateAll(final Collection<T> entities) throws DAOException {
       try {
-         getHibernateTemplate().saveOrUpdateAll(entities);
+         getHibernateTemplate().saveOrUpdate(entities);
       } catch (HibernateException e) {
          throw new DAOException(e);
       }
