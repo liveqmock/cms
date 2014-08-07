@@ -17,9 +17,9 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>src_Core</name>
+			<name>core_src</name>
 			<type>2</type>
-			<location>D:/Workspaces/WebCore/src</location>
+			<location>D:/git_storage/cms/WebCore/src</location>
 		</link>
 	</linkedResources>
 </projectDescription>

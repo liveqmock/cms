@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/web"/>
-	<classpathentry kind="src" path="src_Core"/>
+	<classpathentry kind="src" path="core_src"/>
 	<classpathentry kind="src" path="web/WEB-INF/properties"/>
 	<classpathentry kind="src" path="src/dao"/>
 	<classpathentry kind="src" path="src/service"/>
@@ -26,7 +26,6 @@
 	<classpathentry kind="lib" path="web/WEB-INF/lib/oscache-2.2.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/slf4j-api-1.6.1.jar"/>
-	<classpathentry kind="lib" path="web/WEB-INF/lib/spring.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/servlet-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jasper.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jsp-api.jar"/>
@@ -57,5 +56,52 @@
 	<classpathentry kind="lib" path="web/cms/ueditor/jsp/lib/commons-io-2.4.jar"/>
 	<classpathentry kind="lib" path="web/cms/ueditor/jsp/lib/json.jar"/>
 	<classpathentry kind="lib" path="web/cms/ueditor/jsp/lib/ueditor-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/activiti-explorer/web/WEB-INF/lib/activiti-bpmn-converter-5.16.jar"/>
+	<classpathentry kind="lib" path="/activiti-explorer/web/WEB-INF/lib/activiti-bpmn-layout-5.16.jar"/>
+	<classpathentry kind="lib" path="/activiti-explorer/web/WEB-INF/lib/activiti-bpmn-model-5.16.jar"/>
+	<classpathentry kind="lib" path="/activiti-explorer/web/WEB-INF/lib/activiti-common-rest-5.16.jar"/>
+	<classpathentry kind="lib" path="/activiti-explorer/web/WEB-INF/lib/activiti-crystalball-5.16.jar"/>
+	<classpathentry kind="lib" path="/activiti-explorer/web/WEB-INF/lib/activiti-diagram-rest-5.16.jar"/>
+	<classpathentry kind="lib" path="/activiti-explorer/web/WEB-INF/lib/activiti-engine-5.16.jar"/>
+	<classpathentry kind="lib" path="/activiti-explorer/web/WEB-INF/lib/activiti-explorer-5.16.jar"/>
+	<classpathentry kind="lib" path="/activiti-explorer/web/WEB-INF/lib/activiti-image-generator-5.16.jar"/>
+	<classpathentry kind="lib" path="/activiti-explorer/web/WEB-INF/lib/activiti-json-converter-5.16.jar"/>
+	<classpathentry kind="lib" path="/activiti-explorer/web/WEB-INF/lib/activiti-modeler-5.16.jar"/>
+	<classpathentry kind="lib" path="/activiti-explorer/web/WEB-INF/lib/activiti-process-validation-5.16.jar"/>
+	<classpathentry kind="lib" path="/activiti-explorer/web/WEB-INF/lib/activiti-simple-workflow-5.16.jar"/>
+	<classpathentry kind="lib" path="/activiti-explorer/web/WEB-INF/lib/activiti-spring-5.16.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/activiti-bpmn-converter-5.16.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/activiti-bpmn-layout-5.16.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/activiti-bpmn-model-5.16.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/activiti-common-rest-5.16.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/activiti-crystalball-5.16.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/activiti-diagram-rest-5.16.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/activiti-engine-5.16.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/activiti-explorer-5.16.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/activiti-image-generator-5.16.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/activiti-json-converter-5.16.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/activiti-modeler-5.16.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/activiti-process-validation-5.16.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/activiti-simple-workflow-5.16.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/activiti-spring-5.16.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/mybatis-3.2.5.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-aop-4.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-beans-4.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-context-4.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-core-4.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-expression-4.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-jdbc-4.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-orm-4.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-tx-4.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-web-4.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/joda-time-2.1.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jackson-annotations-2.2.3.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jackson-core-2.2.3.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jackson-databind-2.2.3.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jackson-dataformat-csv-2.2.3.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jackson-dataformat-smile-2.2.3.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jackson-dataformat-xml-2.2.3.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jackson-dataformat-yaml-2.2.3.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jackson-module-jaxb-annotations-2.2.3.jar"/>
 	<classpathentry kind="output" path="web/WEB-INF/classes"/>
 </classpath>

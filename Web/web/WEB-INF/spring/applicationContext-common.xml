@@ -30,24 +30,32 @@
 	</bean>
 	
 	 
+	 
+	 <bean id="SysRoleServiceImpl" class="com.liusy.common.service.system.impl.SysRoleServiceImpl" autowire="byName" /> 
+	 <bean id="SysUserServiceImpl" class="com.liusy.common.service.system.impl.SysUserServiceImpl" autowire="byName" /> 
+	 
+	 <!-- Activiti5.16£¬web-activiti-pulgin -->
+	 <bean id="ActivitiIdentityUserServiceImpl" class="com.liusy.common.service.activiti.impl.ActivitiIdentityUserServiceImpl" autowire="byName" />
+	 <bean id="ActivitiRoleServiceImpl" class="com.liusy.common.service.activiti.impl.ActivitiRoleServiceImpl" autowire="byName" /> 
+	 
+	 
+	 
 	<!--loginService-START --> 
 	<bean id="loginService" parent="txProxyTemplate"> 
 		<property name="target"> 
-			<bean class="com.liusy.common.service.login.impl.LoginServiceImpl" autowire="byName" /> 
+			 <bean  class="com.liusy.common.service.login.impl.LoginServiceImpl" autowire="byName" />
 		</property> 
 	</bean> 
 	<!--loginService-END --> 
 	<!--SysUserInfo-START --> 
 	<bean id="sysUserService" parent="txProxyTemplate"> 
-		<property name="target"> 
-			<bean class="com.liusy.common.service.system.impl.SysUserServiceImpl" autowire="byName" /> 
+		<property name="target" ref="ActivitiIdentityUserServiceImpl"> 
 		</property> 
 	</bean> 
 	<!--SysUserInfo-END --> 
 	<!--SysRoleInfo-START --> 
 	<bean id="sysRoleService" parent="txProxyTemplate"> 
-		<property name="target"> 
-			<bean class="com.liusy.common.service.system.impl.SysRoleServiceImpl" autowire="byName" /> 
+		<property name="target" ref="ActivitiRoleServiceImpl"> 
 		</property> 
 	</bean> 
 	<!--SysRoleInfo-END --> 
