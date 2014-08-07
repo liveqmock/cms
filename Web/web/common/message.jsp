@@ -19,7 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var returnStatus='<%=request.getAttribute("returnStatus")%>';
 		var returnurl='<%=request.getAttribute("returnUrl")%>';
 		
-		if(msg!='') alert(msg);
+		if(msg!=''&&msg!='null') alert(msg);
 		if(returnurl!='null'){
 			window.location.href=returnurl;
 			return ;
