@@ -34,9 +34,9 @@
 	 <bean id="SysRoleServiceImpl" class="com.liusy.common.service.system.impl.SysRoleServiceImpl" autowire="byName" /> 
 	 <bean id="SysUserServiceImpl" class="com.liusy.common.service.system.impl.SysUserServiceImpl" autowire="byName" /> 
 	 
-	 <!-- Activiti5.16，web-activiti-pulgin -->
-	 <bean id="ActivitiIdentityUserServiceImpl" class="com.liusy.common.service.activiti.impl.ActivitiIdentityUserServiceImpl" autowire="byName" />
-	 <bean id="ActivitiRoleServiceImpl" class="com.liusy.common.service.activiti.impl.ActivitiRoleServiceImpl" autowire="byName" /> 
+	 <!-- 工作流插件-用户角色-集成 -->
+	 <bean id="FlowIdentityUserServiceImpl" class="com.liusy.flow.common.identity.service.impl.FlowIdentityUserServiceImpl" autowire="byName" />
+	 <bean id="FlowRoleServiceImpl" class="com.liusy.flow.common.identity.service.impl.FlowRoleServiceImpl" autowire="byName" /> 
 	 
 	 
 	 
@@ -49,14 +49,14 @@
 	<!--loginService-END --> 
 	<!--SysUserInfo-START --> 
 	<bean id="sysUserService" parent="txProxyTemplate"> 
-		<property name="target" ref="ActivitiIdentityUserServiceImpl"> 
-		</property> 
+		<property name="target" ref="FlowIdentityUserServiceImpl"> </property> 
+		<!-- <property name="target" ref="SysUserServiceImpl"> </property>  -->
 	</bean> 
 	<!--SysUserInfo-END --> 
 	<!--SysRoleInfo-START --> 
 	<bean id="sysRoleService" parent="txProxyTemplate"> 
-		<property name="target" ref="ActivitiRoleServiceImpl"> 
-		</property> 
+		<property name="target" ref="FlowRoleServiceImpl"> </property> 
+		<!-- <property name="target" ref="SysRoleServiceImpl"> </property>  -->
 	</bean> 
 	<!--SysRoleInfo-END --> 
 	<bean id="sysOrgService" parent="txProxyTemplate"> 
