@@ -23,6 +23,7 @@ import org.activiti.explorer.ExplorerApp;
 import org.activiti.explorer.ViewManager;
 import org.activiti.explorer.ui.Images;
 import org.activiti.explorer.ui.mainlayout.ExplorerLayout;
+import org.apache.log4j.helpers.NullEnumeration;
 
 import com.vaadin.event.MouseEvents.ClickEvent;
 import com.vaadin.terminal.Resource;
@@ -82,15 +83,20 @@ public class UserDetailsComponent extends HorizontalLayout {
     protected void addUserPicture() {
       Resource pictureResource = Images.USER_32; // default icon
       if (user != null) {
-        final Picture userPicture = identityService.getUserPicture(user.getId());
-        if (userPicture != null) {
-          pictureResource = new StreamResource(new StreamSource() {        
-            public InputStream getStream() {
-              return userPicture.getInputStream();
-            }
-          }, user.getId(), ExplorerApp.get());
-          
-        } 
+    	  try {
+    	     final Picture userPicture = identityService.getUserPicture(user.getId());
+    	        if (userPicture != null) {
+    	          pictureResource = new StreamResource(new StreamSource() {        
+    	            public InputStream getStream() {
+    	              return userPicture.getInputStream();
+    	            }
+    	          }, user.getId(), ExplorerApp.get());
+    	          
+    	        } 
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+		}
+  
       } 
       Embedded picture = new Embedded(null, pictureResource);
       

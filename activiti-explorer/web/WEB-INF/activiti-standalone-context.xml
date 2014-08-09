@@ -8,15 +8,16 @@
        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd">
        
   <!-- This Spring config file is NOT used in Alfresco, as the Activiti engine is wired in a different way there -->
+       
   <bean id="demoDataGenerator" class="org.activiti.explorer.demo.DemoDataGenerator" init-method="init">
     <property name="processEngine" ref="processEngine" />
     <!--   <property name="createDemoUsersAndGroups" value="true" /> -->
-    <!-- Set following properties to false if certain demo data is not wanted-->
+    <!-- Set following properties to false if certain demo data is not wanted
     <property name="createDemoUsersAndGroups" value="true" />
     <property name="createDemoProcessDefinitions" value="true" />
     <property name="createDemoModels" value="true" />
     <property name="generateReportData" value="true" />
-     
+     -->
   </bean>
   
   <bean id="dbProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -40,9 +41,13 @@
   <bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
   	<property name="dataSource" ref="dataSource" />
   	<property name="transactionManager" ref="transactionManager" />
-  	<property name="databaseSchemaUpdate" value="true" />
-  	<property name="jobExecutorActivate" value="true" />
+  	<property name="databaseSchemaUpdate" value="false" />
+  	<property name="jobExecutorActivate" value="false" />
     <property name="enableDatabaseEventLogging" value="true" />
+    <property name="dbIdentityUsed" value="false"/>
+    <!-- 发布流程生成图片是正常显示中文 -->
+    <property name="activityFontName" value="宋体"/>
+    <property name="labelFontName" value="宋体"/>
     <property name="customFormTypes">
       <list>
         <bean class="org.activiti.explorer.form.UserFormType"/>

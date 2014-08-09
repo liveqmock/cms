@@ -61,7 +61,13 @@ public class UserProfileLink extends HorizontalLayout {
 
   protected void initPicture(IdentityService identityService, boolean renderPicture, final String userName) {
     if(renderPicture) {
-      Picture picture = identityService.getUserPicture(userName);
+    	 Picture picture =null;
+    	try {
+    		  picture = identityService.getUserPicture(userName);
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+		}
+     
       if(picture != null) {
         Resource imageResource = new StreamResource(new InputStreamStreamSource(picture.getInputStream()), 
           userName + picture.getMimeType(), ExplorerApp.get());

@@ -314,7 +314,7 @@ public class EditorProcessDefinitionDetailPanel extends DetailPanel {
           String processName = modelData.getName() + ".bpmn20.xml";
           Deployment deployment = repositoryService.createDeployment()
                   .name(modelData.getName())
-                  .addString(processName, new String(bpmnBytes))
+                  .addString(processName, new String(bpmnBytes,"UTF-8"))
                   .deploy();
           
           // Generate reports
@@ -345,10 +345,16 @@ public class EditorProcessDefinitionDetailPanel extends DetailPanel {
     byte[] bpmnBytes = new BpmnXMLConverter().convertToXML(model);
     
     String processName = modelData.getName() + ".bpmn20.xml";
-    Deployment deployment = repositoryService.createDeployment()
-            .name(modelData.getName())
-            .addString(processName, new String(bpmnBytes))
-            .deploy();
+    Deployment deployment=null;
+	try {
+		deployment = repositoryService.createDeployment()
+		        .name(modelData.getName())
+		        .addString(processName, new String(bpmnBytes,"UTF-8"))
+		        .deploy();
+	} catch (UnsupportedEncodingException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 
     ExplorerApp.get().getViewManager().showDeploymentPage(deployment.getId());
   }

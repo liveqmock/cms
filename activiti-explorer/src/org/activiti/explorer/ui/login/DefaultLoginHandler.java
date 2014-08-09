@@ -47,14 +47,11 @@ public class DefaultLoginHandler implements LoginHandler {
 	      List<Group> groups = identityService.createGroupQuery().groupMember(user.getId()).list();
 	      for (Group group : groups) {
 	
-	        if (Constants.SECURITY_ROLE.equals(group.getType())) {
+	    	  
+		    if ("1".equals(group.getType())) {
 	          loggedInUser.addSecurityRoleGroup(group);
-	          if (Constants.SECURITY_ROLE_USER.equals(group.getId())) {
-	            loggedInUser.setUser(true);
-	          }
-	          if (Constants.SECURITY_ROLE_ADMIN.equals(group.getId())) {
-	            loggedInUser.setAdmin(true);
-	          }
+	          loggedInUser.setAdmin(true);
+	  
 	        } else if (ExplorerApp.get().getAdminGroups() != null
 	                    && ExplorerApp.get().getAdminGroups().contains(group.getId())) {
 	          loggedInUser.addSecurityRoleGroup(group);
@@ -66,6 +63,28 @@ public class DefaultLoginHandler implements LoginHandler {
 	        } else {
 	          loggedInUser.addGroup(group);
 	        }
+	    	  
+	    	  
+	    	  
+//	        if (Constants.SECURITY_ROLE.equals(group.getType())) {
+//	          loggedInUser.addSecurityRoleGroup(group);
+//	          if (Constants.SECURITY_ROLE_USER.equals(group.getId())) {
+//	            loggedInUser.setUser(true);
+//	          }
+//	          if (Constants.SECURITY_ROLE_ADMIN.equals(group.getId())) {
+//	            loggedInUser.setAdmin(true);
+//	          }
+//	        } else if (ExplorerApp.get().getAdminGroups() != null
+//	                    && ExplorerApp.get().getAdminGroups().contains(group.getId())) {
+//	          loggedInUser.addSecurityRoleGroup(group);
+//	          loggedInUser.setAdmin(true);
+//	        } else if (ExplorerApp.get().getUserGroups() != null
+//	                && ExplorerApp.get().getUserGroups().contains(group.getId())) {
+//	          loggedInUser.addSecurityRoleGroup(group);
+//	          loggedInUser.setUser(true);
+//	        } else {
+//	          loggedInUser.addGroup(group);
+//	        }
 	        
 	        
 	      }
