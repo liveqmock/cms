@@ -67,12 +67,12 @@ public class FlowIdentityUserServiceImpl extends SysUserServiceImpl  implements 
 			         for (int i = 0; i < ids.length; i++) {
 			            if (ids[i].trim().equals("")) continue;
 			            Group g = identityService.createGroupQuery().groupId(ids[i].trim()).singleResult();
+			            SysRole r = sysRoleService.getRole(Integer.parseInt(ids[i]));
 			            if(null==g)
 			            {
-			            	SysRole r = sysRoleService.getRole(Integer.parseInt(ids[i]));
 			            	((FlowRoleService)sysRoleService).addActivitiRole(r);
 			            }
-			            	identityService.createMembership(sysUser.getUserAccount(), ids[i]);
+			            	identityService.createMembership(sysUser.getUserAccount(),r.getRoleCode());
 			         }
 			         
 

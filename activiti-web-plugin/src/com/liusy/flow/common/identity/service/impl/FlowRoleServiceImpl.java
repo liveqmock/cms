@@ -39,7 +39,7 @@ public class FlowRoleServiceImpl extends SysRoleServiceImpl implements FlowRoleS
 		// TODO Auto-generated method stub
 		super.updateRole(sysRole);
 		SysRole r = super.getRole(sysRole.getId());
-		updateActivitiRole(r.getId().toString(),r.getRoleName());
+		updateActivitiRole(r.getRoleCode(),r.getRoleName());
 	}
 
 
@@ -47,10 +47,10 @@ public class FlowRoleServiceImpl extends SysRoleServiceImpl implements FlowRoleS
 	@Override
 	public void addActivitiRole(SysRole sysRole) {
 		// TODO Auto-generated method stub
-	    if (identityService.createGroupQuery().groupId(sysRole.getId().toString()).count() == 0) {
-	        Group newGroup = identityService.newGroup(sysRole.getId().toString());
+	    if (identityService.createGroupQuery().groupId(sysRole.getRoleCode()).count() == 0) {
+	        Group newGroup = identityService.newGroup(sysRole.getRoleCode());
 	        newGroup.setName(sysRole.getRoleName());
-	        newGroup.setType("assignment");
+	        newGroup.setType(sysRole.getRoleType());
 	        identityService.saveGroup(newGroup);
 	      }
 	}

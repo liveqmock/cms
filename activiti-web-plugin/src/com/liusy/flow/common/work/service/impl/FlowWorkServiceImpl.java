@@ -215,7 +215,7 @@ public class FlowWorkServiceImpl implements FlowWorkService{
 //				  while ((len = imageStream.read(b, 0, 1024)) != -1) {
 //				    response.getOutputStream().write(b, 0, len);
 //				  }
-				  
+//				  imageStream.close();
  
 				//1.6版本
 				//processEngine.getProcessEngineConfiguration().getProcessDiagramGenerator()
