@@ -6,6 +6,17 @@
 	<constant name="struts.action.extension" value="do,action" />
 	<constant name="struts.ui.theme" value="simple" />
 	<constant name="struts.multipart.maxSize" value="1000000000" />
+	<!-- 扫描类名以Action结尾的类 -->
+	<constant name="struts.convention.action.suffix" value="Action" />
+	
+	<!-- 指定在包名为action或controller结尾的包中扫描Action类  -->
+	<constant name="struts.convention.package.locators" value="action,web" />
+	
+	
+	
+	
+	
+	
 	 <package name="default" extends="struts-default,json-default">
 		<global-results>
 			<result name="ERROR">/common/error.jsp</result>
@@ -26,8 +37,5 @@
 	<package name="default-json" extends="json-default"></package>
 
 	<include file="../struts/struts-system.xml" />
-	<include file="../struts/struts-project.xml" />
-	<include file="../struts/struts-report.xml" />
-	<include file="../struts/struts-cms.xml" />
 </struts>
 

@@ -9,6 +9,8 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -39,6 +41,12 @@ public abstract class HibernateDaoImpl<T> extends HibernateDaoSupport implements
 
    private Class<T> clazz;
 
+   @Autowired
+   public void setSessionFactory0(SessionFactory sessionFactory){
+        super.setSessionFactory(sessionFactory);
+   }
+   
+   
    public HibernateDaoImpl() {
       clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 

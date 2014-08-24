@@ -11,10 +11,10 @@ public class MysqlSqlGenerator extends CommonSqlGenerator implements SqlGenerato
       StringBuffer pagingSelect = new StringBuffer();
       
       int fromNums = (pageNo - 1) * pageSize;
-      int toNums = fromNums + pageSize;
+      //int toNums = fromNums + pageSize;
       
 	  pagingSelect.append("select * from (");
-	  pagingSelect.append(strSQL).append(") t LIMIT  ").append(fromNums).append(",").append(toNums);
+	  pagingSelect.append(strSQL).append(") t LIMIT  ").append(fromNums).append(",").append(pageSize);
 
       return pagingSelect.toString();
    }

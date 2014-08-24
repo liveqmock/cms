@@ -3,6 +3,10 @@ package com.liusy.cms.service.impl;
 import java.io.Serializable;
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
 import com.liusy.cms.dao.CatalogDao;
 import com.liusy.cms.dao.CatalogItemDao;
 import com.liusy.cms.model.Catalog;
@@ -10,20 +14,15 @@ import com.liusy.cms.service.CatalogService;
 import com.liusy.core.dao.model.PageQuery;
 import com.liusy.core.exception.ServiceException;
 
+@Service("catalogService")
 public class CatalogServiceImpl implements CatalogService {
+	
+	@Autowired
 	private CatalogDao	catalogDao;
-
+	@Autowired
 	private CatalogItemDao	catalogItemDao;
 
-	/**
-	 * 注入DAO
-	 * 
-	 * @see com.CatalogService.core.service.CatalogService#setCatalogDao(CatalogDao
-	 *      catalogDao)
-	 */
-	public void setCatalogDao(CatalogDao catalogDao) {
-		this.catalogDao = catalogDao;
-	}
+
 
 	/**
 	 * 用PK查找对象
@@ -202,13 +201,6 @@ public class CatalogServiceImpl implements CatalogService {
 		}
 	}
 
-	public CatalogItemDao getCatalogItemDao() {
-		return catalogItemDao;
-	}
-
-	public void setCatalogItemDao(CatalogItemDao catalogItemDao) {
-		this.catalogItemDao = catalogItemDao;
-	}
 
 	public PageQuery getCodeSetsForTree(PageQuery pagequery)
 			throws ServiceException {

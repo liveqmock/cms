@@ -3,6 +3,9 @@ package com.liusy.cms.service.impl;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.liusy.cms.dao.CatalogDao;
 import com.liusy.cms.dao.CatalogItemDao;
 import com.liusy.cms.model.CatalogItem;
@@ -12,6 +15,8 @@ import com.liusy.core.exception.DAOException;
 import com.liusy.core.exception.ServiceException;
 import com.liusy.core.util.ConvertUtil;
 
+
+@Service("catalogItemService")
 public class CatalogItemServiceImpl implements CatalogItemService {
 	
    private static final long serialVersionUID = 1L;
@@ -113,26 +118,11 @@ public class CatalogItemServiceImpl implements CatalogItemService {
          throw new ServiceException(e);
       }
    }
-
+   @Autowired
    private CatalogDao catalogDao;
-
+   @Autowired
    private CatalogItemDao    catalogItemDao;
 
-   /**
-    * 注入DAO
-    * 
-    * @see com.CatalogItemService.core.service.CatalogItemService#setCatalogItemDao(CatalogItem
-    *      catalogItemDao)
-    */
-   public void setCatalogDao(CatalogDao catalogDao) {
-      this.catalogDao = catalogDao;
-   }
-
-
-
-   public void setCatalogItemDao(CatalogItemDao catalogItemDao) {
-      this.catalogItemDao = catalogItemDao;
-   }
 
 
 

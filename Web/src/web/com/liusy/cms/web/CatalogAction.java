@@ -16,8 +16,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.StrutsStatics;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Actions;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 import com.liusy.cms.model.Catalog;
 import com.liusy.cms.model.CatalogItem;
@@ -31,6 +39,20 @@ import com.liusy.core.web.action.BaseAction;
 import com.liusy.core.web.form.QueryForm;
 import com.opensymphony.xwork2.ActionContext;
 
+ 
+@Controller
+@Scope("prototype")
+@Namespace("/cms")
+@Action("catalog")
+@ParentPackage("default")
+@Results({
+		@Result(name = "JSON", type = "json", params = {"ignoreHierarchy","false"}),
+		@Result(name = "LIST", location = "/cms/admin/Catalog_list.jsp"),
+		@Result(name = "addCatalog", location = "/cms/admin/Catalog_add.jsp"),
+		@Result(name = "editCatalog", location = "/cms/admin/Catalog_add.jsp"),
+		@Result(name = "addCatalogItem", location = "/cms/admin/CatalogItem_add.jsp"),
+		@Result(name = "editCatalogItem", location = "/cms/admin/CatalogItem_add.jsp"),
+		@Result(name = "catalogItemList", location = "/cms/admin/CatalogItem_grid.jsp") })
 public class CatalogAction extends BaseAction {
    private final Log         log = LogFactory.getLog(CatalogAction.class);
    private String            catalogId;

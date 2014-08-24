@@ -292,6 +292,7 @@ html,body {
             <item code="A9903" onclick="go('system/sysUser.do','用户管理','men.gif')" text="用户管理" img="css/navImg/7-3.gif" />
             <item code="A9905" type="separator"/>
             <item code="" onclick="goChangePwd()" text="修改密码" img="css/navImg/7-4.gif" />
+             <item code="" onclick="go('flow/flow.do','待办管理','men.gif')" text="待办管理" img="css/navImg/7-4.gif" />
     </gl:menu>
 
    
