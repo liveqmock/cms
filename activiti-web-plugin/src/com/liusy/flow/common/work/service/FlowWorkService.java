@@ -61,7 +61,6 @@ public interface FlowWorkService {
 	 * @throws Exception
 	 */
 	public abstract InputStream getImageStream(String taskId) throws Exception;
-
 	/**
 	 * 
 	 * 启动流程
@@ -85,15 +84,28 @@ public interface FlowWorkService {
 	 *  得到前进的节点 com.liusy.flow.common.work.service.impl.FlowWorkService#getOutNodes <br>
 	 * 
 	 * @param taskId
-	 * @param 根据 nodeId，进行退回或前进操作  从
+	 * @param 根据 nodeId，进行退回或前进操作  从getInNodes\getOutNodes得到
 	 * @param variable 
-	 * @param type  通过、驳回、挂起、结束
+	 * @param type 1 通过、0驳回、2挂起、3结束
 	 * @param userName 用户名
 	 * @param remark 意见
 	 */
 	public abstract void taskHandle(String taskId,String nodeId,
 			Map<String, Object> variable, int type, String userName,
 			String remark);
+	
+	/**
+	 *  处理任务<br><br>
+	 * @param taskId
+	 * @param variable 
+	 * @param type 1 通过、0驳回、2挂起、3结束
+	 * @param userName 用户名
+	 * @param remark 意见
+	 */
+	public abstract void taskHandle(String taskId, Map<String, Object> variable, int type,
+			String userName, String remark);
+	
+	
 
 	/**
 	 *   根据流程任务ID获取执行过的所有任务节点的列表   必须指定流程实例才精确     考虑如何获取指定流程定义中的所有节点
@@ -193,7 +205,7 @@ public interface FlowWorkService {
 			String userId, FlowWorkBean flowWorkBean);
 
 	/**
-	 * 已处理的任务，处于活动状态的任务
+	 * 已处理的任务
 	 * 
 	 * @param userId  当前登陆帐号
 	 * @param flowWorkBea  查询条件，暂时只对“任务类型”、“任务主题”、“任务申请人”、“申请部门”有效果
@@ -204,7 +216,7 @@ public interface FlowWorkService {
 			FlowWorkBean flowWorkBea) throws Exception;
 
 	/**
-	 * 已处理的任务，处于活动状态的任务
+	 * 已处理的任务
 	 * 
 	 * @param userId  当前登陆帐号
 	 * @param flowWorkBea  查询条件，暂时只对“任务类型”、“任务主题”、“任务申请人”、“申请部门”有效果
@@ -247,6 +259,16 @@ public interface FlowWorkService {
 	public abstract FlowDataContent findFinishedFlow(String userId,
 			FlowWorkBean flowWorkBea, int pageSize, int pageNumber)
 			throws Exception;
+	
+	/**
+	 * 根据用户帐号得到代办提示，待认领数 ，待办数，已经完成（流程未结束）。已完成数（流程已结束）
+	 * 
+	 * @param userId
+	 * @return Map<key,value> key:{"claim","wait","unfinish","finish"} value:{"","","",""}
+	 */
+	public abstract Map<String,String>  findCountTip(String userId);
+	
+
 
 	public abstract ProcessInstance getFlowInstance(String businessKey, String flowDefinitionKeys);
 
@@ -260,6 +282,8 @@ public interface FlowWorkService {
 
 	public abstract void suspendFlow(String flowInstanceId);
 
+
+	public abstract FlowWorkBean findTask(String taskId);
 
 	
 	

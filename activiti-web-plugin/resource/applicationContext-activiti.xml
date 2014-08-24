@@ -36,7 +36,6 @@
     -->
     
     
-    
   <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
   	<property name="dataSource" ref="dataSource" />
   </bean>
@@ -47,8 +46,12 @@
   	<property name="databaseSchemaUpdate" value="false" />
   	<property name="jobExecutorActivate" value="false" />
     <property name="enableDatabaseEventLogging" value="true" />
+    <property name="history" value="full">
     <!-- 取消系统identity表，使用视图ACT_ID_GROUP、ACT_ID_INFO、ACT_ID_MEMBERSHIP、ACT_ID_USER -->
     <property name="dbIdentityUsed" value="false"/> 
+    <!-- 发布流程生成图片是正常显示中文 -->
+    <property name="activityFontName" value="宋体"/>
+    <property name="labelFontName" value="宋体"/>
     <property name="customFormTypes">
       <list>
         <bean class="org.activiti.explorer.form.UserFormType"/>
@@ -57,6 +60,7 @@
       </list>
     </property>
   </bean>
+  ‍
   
   <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean" destroy-method="destroy">
   	<property name="processEngineConfiguration" ref="processEngineConfiguration" />
@@ -73,8 +77,21 @@
     <property name="identityService" ref="identityService" />
   </bean>
   
+	
+  
   	 <!-- 工作流插件-用户角色-集成，使用<property name ="dbIdentityUsed"ref="false"/>时，可不配置，如果使用工作流自带的用户表，则需要配置，并在applicationContext-common.xml下替换系统默认的实现 -->
 	 <bean id="FlowIdentityUserServiceImpl" class="com.liusy.flow.common.identity.service.impl.FlowIdentityUserServiceImpl" autowire="byName" />
 	 <bean id="FlowRoleServiceImpl" class="com.liusy.flow.common.identity.service.impl.FlowRoleServiceImpl" autowire="byName" /> 
   
+  
+    <bean id="flowWorkService" class="com.liusy.flow.common.work.service.impl.FlowWorkServiceImpl">
+     <property name="runtimeService" ref="runtimeService" />
+     <property name="repositoryService" ref="repositoryService" />
+     <property name="taskService" ref="taskService" />
+     <property name="historyService" ref="historyService" />
+     <property name="managementService" ref="managementService" />
+     <property name="processEngine" ref="processEngine" />
+    </bean>
+    
+    
 </beans>

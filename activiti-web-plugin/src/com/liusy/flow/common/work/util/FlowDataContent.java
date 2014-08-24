@@ -19,7 +19,6 @@ public class FlowDataContent {
 		private int                    pageCount;     // 总页数
 		
 		
-		
 		public List<FlowWorkBean> getList() {
 			return list;
 		}

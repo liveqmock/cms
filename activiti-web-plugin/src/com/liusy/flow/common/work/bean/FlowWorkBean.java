@@ -9,7 +9,6 @@ package com.liusy.flow.common.work.bean;
  */
 public class FlowWorkBean extends BaseFlowBean {
 
-	
 	/**
 	 * //待办唯一id//启动流程时可为空
 	 */

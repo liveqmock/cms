@@ -14,8 +14,6 @@ public class FlowRoleServiceImpl extends SysRoleServiceImpl implements FlowRoleS
 	
 
 	
-	
-	
 	public IdentityService getIdentityService() {
 		return identityService;
 	}

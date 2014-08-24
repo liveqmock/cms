@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.ManagementService;
@@ -413,13 +415,17 @@ public class FlowWorkServiceImpl implements FlowWorkService{
 	
 	
 	
-	
-	
-	
+	/* (non-Javadoc)
+	 * @see com.liusy.flow.common.work.service.impl.FlowWorkService#taskHandle(java.lang.String, java.util.Map, int, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public void taskHandle(String taskId,Map<String, Object> variable, int type,String userName,String remark){
+		this.taskHandle(taskId, null, variable, type, userName, remark);
+	}
 	
 	
 	/* (non-Javadoc)
-	 * @see com.liusy.flow.common.work.service.impl.FlowWorkService#taskHandle(java.lang.String, java.util.Map, int, java.lang.String, java.lang.String)
+	 * @see com.liusy.flow.common.work.service.impl.FlowWorkService#taskHandle(java.lang.String,java.lang.String, java.util.Map, int, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public void taskHandle(String taskId,String nodeId,Map<String, Object> variable, int type,String userName,String remark)
@@ -428,22 +434,28 @@ public class FlowWorkServiceImpl implements FlowWorkService{
 		String startDate = DateFormatUtils.format(task.getCreateTime(), "yyyy-MM-dd HH:mm:ss");
 		String endDate = DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
 		
-		taskService.addComment(taskId, task.getProcessInstanceId(), task.getProcessInstanceId()+";"+task.getId()+";"+type+";"+task.getAssignee()+";"+userName+";"+(remark.replace(";", "；"))+";"+startDate+";"+endDate);
-		taskService.setVariables(taskId, variable);
-		//taskService.complete(taskId,variable);
-		//根据 nodeId，进行退回或前进操作
-		commitFlow(taskId,nodeId,task.getAssignee());
-		
 		ApprovalOpinionBean aob = new ApprovalOpinionBean();
 	   	 aob.setWaitWorkFlowInstanceId(task.getProcessInstanceId());
 	   	 aob.setWaitWorkFlowTaskId(task.getId());
+	   	 aob.setWaitWorkFlowTaskName(task.getName());
 	   	 aob.setHandType(type);
 	   	 aob.setUserId(task.getAssignee());
 	   	 aob.setUserName(userName);
-	   	 aob.setComments(remark.replace(";", "；"));
+	   	 aob.setComments(remark);
 	   	 aob.setStartDate(startDate);
 	   	 aob.setEndDate(endDate);
-		if(null==runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult())
+	   	 
+		
+		taskService.addComment(taskId, task.getProcessInstanceId(), JSONObject.fromObject(aob).toString());
+		taskService.setVariables(taskId, variable);
+		
+		if(null==nodeId||"".equals(nodeId))
+			taskService.complete(taskId,variable);
+		else
+			commitFlow(taskId,nodeId,task.getAssignee());//根据 nodeId，进行退回或前进操作
+		
+		
+		if(null!=historyService.createHistoricProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).finished().singleResult())
 			mapFlowService.get(task.getProcessInstanceId()).flowEndNodeAfter(aob);
 		else
 			mapFlowService.get(task.getProcessInstanceId()).flowRunNodeAfter(aob);
@@ -476,18 +488,8 @@ public class FlowWorkServiceImpl implements FlowWorkService{
     	 conmentsList =taskService.getProcessInstanceComments(processInstanceId);
          List<ApprovalOpinionBean> aobList  = new ArrayList<ApprovalOpinionBean>();
          ApprovalOpinionBean aob = null;
-         String [] commentArray= null;
          for (Comment comment : conmentsList) {
-        	 aob = new ApprovalOpinionBean();
-        	 commentArray= comment.getFullMessage().split(";");
-        	 aob.setWaitWorkFlowInstanceId(commentArray[0]);
-        	 aob.setWaitWorkFlowTaskId(commentArray[1]);
-        	 aob.setHandType(Integer.parseInt(commentArray[2]));
-        	 aob.setUserId(commentArray[3]);
-        	 aob.setUserName(commentArray[4]);
-        	 aob.setComments(commentArray[5]);
-        	 aob.setStartDate(commentArray[6]);
-        	 aob.setEndDate(commentArray[7]);
+        	 aob = (ApprovalOpinionBean) JSONObject.toBean(JSONObject.fromObject(comment.getFullMessage()),ApprovalOpinionBean.class);
         	 aobList.add(aob);
 		}
      
@@ -509,8 +511,21 @@ public class FlowWorkServiceImpl implements FlowWorkService{
         }
     }
 	
-	
-	
+    @Override
+    public FlowWorkBean findTask(String taskId){
+    	Task t =  taskService.createTaskQuery().taskId(taskId).singleResult();
+    	FlowWorkBean flowWorkBean = new FlowWorkBean();
+    	try {
+			ConvertUtil.convertToModel(flowWorkBean, t.getProcessVariables());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		flowWorkBean.setWaitWorkFlowTaskId(t.getId());
+		flowWorkBean.setWaitWorkFlowInstanceId(t.getProcessInstanceId());
+		flowWorkBean.setWaitWorkFlowTaskName(t.getName());
+    	return flowWorkBean;
+    }
     
     
     
@@ -525,6 +540,8 @@ public class FlowWorkServiceImpl implements FlowWorkService{
 	@Override
 	public TaskQuery createUnsignedTaskQuery(String userId,FlowWorkBean flowWorkBean) { 
 	    TaskQuery taskCandidateUserQuery = taskService.createTaskQuery().taskCandidateUser(userId); 
+	    if(null!=flowWorkBean)
+	    {
 	    if(null!=flowWorkBean.getWaitWorkType() &&!"".equals(flowWorkBean.getWaitWorkType()))
 	    	taskCandidateUserQuery.processVariableValueEquals(FlowWorkBean.WAITWORK_TYPE, flowWorkBean.getWaitWorkType());
 	    if(null!=flowWorkBean.getWaitWorkSubject() &&!"".equals(flowWorkBean.getWaitWorkSubject()))
@@ -533,6 +550,7 @@ public class FlowWorkServiceImpl implements FlowWorkService{
 	    	taskCandidateUserQuery.processVariableValueLike(FlowWorkBean.WAITWORK_USERNAME, flowWorkBean.getWaitWorkUserName());
 	    if(null!=flowWorkBean.getWaitWorkDepartment() &&!"".equals(flowWorkBean.getWaitWorkDepartment()))
 	    	taskCandidateUserQuery.processVariableValueLike(FlowWorkBean.WAITWORK_DEPARTMENT, flowWorkBean.getWaitWorkDepartment());
+	    }
 	    return taskCandidateUserQuery; 
 	} 
 	
@@ -543,7 +561,7 @@ public class FlowWorkServiceImpl implements FlowWorkService{
 	@Override
 	public  FlowDataContent findUnsignedTask(String userId,FlowWorkBean flowWorkBea) throws Exception
 	{
-		TaskQuery taskCandidateUserQuery = createTodoTaskQuery(userId,flowWorkBea);
+		TaskQuery taskCandidateUserQuery = createUnsignedTaskQuery(userId,flowWorkBea);
 		List<Task> list= taskCandidateUserQuery.list();
 		FlowDataContent fdc = new FlowDataContent(ConvertFlowDataContentTodoTask(list),taskCandidateUserQuery.count(),taskCandidateUserQuery.count(),1);
 		return fdc;
@@ -555,7 +573,7 @@ public class FlowWorkServiceImpl implements FlowWorkService{
 	@Override
 	public  FlowDataContent findUnsignedTask(String userId,FlowWorkBean flowWorkBea,int pageSize,int pageNumber) throws Exception
 	{
-		TaskQuery taskCandidateUserQuery = createTodoTaskQuery(userId,flowWorkBea);
+		TaskQuery taskCandidateUserQuery = createUnsignedTaskQuery(userId,flowWorkBea);
 		List<Task> list= taskCandidateUserQuery.listPage(pageSize*pageNumber, pageSize*(++pageNumber));
 		FlowDataContent fdc = new FlowDataContent(ConvertFlowDataContentTodoTask(list),taskCandidateUserQuery.count(),pageSize,pageNumber);
 		return fdc;
@@ -570,6 +588,8 @@ public class FlowWorkServiceImpl implements FlowWorkService{
 	@Override
 	public TaskQuery createTodoTaskQuery(String userId,FlowWorkBean flowWorkBean) { 
 	    TaskQuery taskAssigneeQuery = taskService.createTaskQuery().taskAssignee(userId); 
+	    if(null!=flowWorkBean)
+	    {
 	    if(null!=flowWorkBean.getWaitWorkType() &&!"".equals(flowWorkBean.getWaitWorkType()))
 	    	taskAssigneeQuery.processVariableValueEquals(FlowWorkBean.WAITWORK_TYPE, flowWorkBean.getWaitWorkType());
 	    if(null!=flowWorkBean.getWaitWorkSubject() &&!"".equals(flowWorkBean.getWaitWorkSubject()))
@@ -578,6 +598,7 @@ public class FlowWorkServiceImpl implements FlowWorkService{
 	    	taskAssigneeQuery.processVariableValueLike(FlowWorkBean.WAITWORK_USERNAME, flowWorkBean.getWaitWorkUserName());
 	    if(null!=flowWorkBean.getWaitWorkDepartment() &&!"".equals(flowWorkBean.getWaitWorkDepartment()))
 	    	taskAssigneeQuery.processVariableValueLike(FlowWorkBean.WAITWORK_DEPARTMENT, flowWorkBean.getWaitWorkDepartment());
+	    }
 	    return taskAssigneeQuery;
 	} 
 
@@ -618,6 +639,7 @@ public class FlowWorkServiceImpl implements FlowWorkService{
 			ConvertUtil.convertToModel(flowWorkBean, mapVariables);
 			flowWorkBean.setWaitWorkFlowTaskId(historicProcessInstance.getId());
 			flowWorkBean.setWaitWorkFlowInstanceId(historicProcessInstance.getProcessInstanceId());
+			flowWorkBean.setWaitWorkFlowTaskName(historicProcessInstance.getName());
 			listFlowWorkBean.add(flowWorkBean);
 		}
 		return listFlowWorkBean;
@@ -643,7 +665,9 @@ public class FlowWorkServiceImpl implements FlowWorkService{
 	 */ 
 	@Override
 	public ProcessInstanceQuery createUnFinishedProcessInstanceQuery(String userId,FlowWorkBean flowWorkBean) {
-	    ProcessInstanceQuery unfinishedQuery = runtimeService.createProcessInstanceQuery().involvedUser(userId).active();
+	    ProcessInstanceQuery unfinishedQuery = runtimeService.createProcessInstanceQuery().involvedUser(userId);
+	    if(null!=flowWorkBean)
+	    {
 	    if(null!=flowWorkBean.getWaitWorkType() &&!"".equals(flowWorkBean.getWaitWorkType()))
 	    	unfinishedQuery.variableValueEquals(FlowWorkBean.WAITWORK_TYPE, flowWorkBean.getWaitWorkType());
 	    if(null!=flowWorkBean.getWaitWorkSubject() &&!"".equals(flowWorkBean.getWaitWorkSubject()))
@@ -652,6 +676,7 @@ public class FlowWorkServiceImpl implements FlowWorkService{
 	    	unfinishedQuery.variableValueLike(FlowWorkBean.WAITWORK_USERNAME, flowWorkBean.getWaitWorkUserName());
 	    if(null!=flowWorkBean.getWaitWorkDepartment() &&!"".equals(flowWorkBean.getWaitWorkDepartment()))
 	    	unfinishedQuery.variableValueLike(FlowWorkBean.WAITWORK_DEPARTMENT, flowWorkBean.getWaitWorkDepartment());
+	    }
 	    return unfinishedQuery;
 	} 
 	
@@ -715,6 +740,8 @@ public class FlowWorkServiceImpl implements FlowWorkService{
 	@Override
 	public HistoricProcessInstanceQuery createFinishedProcessInstanceQuery(String userId,FlowWorkBean flowWorkBean) { 
 	    HistoricProcessInstanceQuery finishedQuery = historyService.createHistoricProcessInstanceQuery().involvedUser(userId).finished();
+	    if(null!=flowWorkBean)
+	    {
 	    if(null!=flowWorkBean.getWaitWorkType() &&!"".equals(flowWorkBean.getWaitWorkType()))
 	    	finishedQuery.variableValueEquals(FlowWorkBean.WAITWORK_TYPE, flowWorkBean.getWaitWorkType());
 	    if(null!=flowWorkBean.getWaitWorkSubject() &&!"".equals(flowWorkBean.getWaitWorkSubject()))
@@ -723,6 +750,7 @@ public class FlowWorkServiceImpl implements FlowWorkService{
 	    	finishedQuery.variableValueLike(FlowWorkBean.WAITWORK_USERNAME, flowWorkBean.getWaitWorkUserName());
 	    if(null!=flowWorkBean.getWaitWorkDepartment() &&!"".equals(flowWorkBean.getWaitWorkDepartment()))
 	    	finishedQuery.variableValueLike(FlowWorkBean.WAITWORK_DEPARTMENT, flowWorkBean.getWaitWorkDepartment());
+	    }
 	    return finishedQuery;
 	} 
 
@@ -744,7 +772,7 @@ public class FlowWorkServiceImpl implements FlowWorkService{
 	@Override
 	public FlowDataContent findFinishedFlow(String userId,FlowWorkBean flowWorkBea,int pageSize,int pageNumber) throws Exception
 	{
-		HistoricProcessInstanceQuery hpiq = createFinishedProcessInstanceQuery(userId,flowWorkBea);
+		HistoricProcessInstanceQuery hpiq = createFinishedProcessInstanceQuery(userId,flowWorkBea).orderByProcessInstanceEndTime();
 		List<HistoricProcessInstance> list= hpiq.desc().listPage(pageSize*pageNumber, pageSize*(++pageNumber));
 		FlowDataContent fdc = new FlowDataContent(ConvertFlowDataContentHistoric(list),hpiq.count(),pageSize,pageNumber);
 		return fdc;
@@ -764,5 +792,39 @@ public class FlowWorkServiceImpl implements FlowWorkService{
 		}
 		return listFlowWorkBean;
 	}
+
+
+
+	@Override
+	public Map<String, String> findCountTip(String userId) {
+		Map<String,String> map  = new HashMap<String, String>();
+		map.put("claim", String.valueOf(createUnsignedTaskQuery(userId,null).count()));
+		map.put("wait",  String.valueOf(createTodoTaskQuery(userId,null).count()));
+		map.put("unfinish", String.valueOf(createUnFinishedProcessInstanceQuery(userId,null).count()));
+		map.put("finish", String.valueOf(createFinishedProcessInstanceQuery(userId,null).count()));
+		return map;
+	}
+	
+	
+	
+	
+public static void main(String[] args) {
+	ApprovalOpinionBean aob = new ApprovalOpinionBean();
+  	 aob.setWaitWorkFlowInstanceId("task.getProcessInstanceId()");
+  	 aob.setWaitWorkFlowTaskId("task.getId()");
+  	 aob.setHandType(1);
+  	 aob.setUserId("task.getAssignee()");
+  	 aob.setUserName("userName");
+  	 aob.setComments("remark.replace()");
+  	 aob.setStartDate("startDate");
+  	 aob.setEndDate("endDate");
+  	
+  	System.out.println(JSONObject.fromObject(aob).toString());
+  	
+	ApprovalOpinionBean aob1=(ApprovalOpinionBean) JSONObject.toBean(JSONObject.fromObject(JSONObject.fromObject(aob).toString()), ApprovalOpinionBean.class);
+	
+  	System.out.println(aob1.getComments());
+}
+
 
 }

@@ -17,7 +17,7 @@ import com.liusy.flow.common.identity.service.FlowRoleService;
 
 public class FlowIdentityUserServiceImpl extends SysUserServiceImpl  implements FlowIdentityUserService{
 
-	
+
 	private IdentityService identityService;
 	
 	private SysRoleService sysRoleService;

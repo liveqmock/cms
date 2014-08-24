@@ -4,8 +4,11 @@ public class BaseFlowBean {
 
 	public static final String WAITWORK_FLOWINSTANCEID = "waitWorkFlowInstanceId";
 	public static final String WAITWORK_FLOWTASKID = "waitWorkFlowTaskId";
+	public static final String WAITWORK_FLOWTASKNAME = "waitWorkFlowTaskName";
+	
 	private String waitWorkFlowInstanceId;
 	private String waitWorkFlowTaskId;
+	private String  waitWorkFlowTaskName;
 
 	public BaseFlowBean() {
 		super();
@@ -26,5 +29,15 @@ public class BaseFlowBean {
 	public void setWaitWorkFlowTaskId(String waitWorkFlowTaskId) {
 		this.waitWorkFlowTaskId = waitWorkFlowTaskId;
 	}
+
+	public String getWaitWorkFlowTaskName() {
+		return waitWorkFlowTaskName;
+	}
+
+	public void setWaitWorkFlowTaskName(String waitWorkFlowTaskName) {
+		this.waitWorkFlowTaskName = waitWorkFlowTaskName;
+	}
+	
+	
 
 }
